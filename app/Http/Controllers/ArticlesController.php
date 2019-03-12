@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ArticleRequest;
+use App\Repositories\ArticlesRepository;
 use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
@@ -18,9 +19,9 @@ class ArticlesController extends Controller
 	}
 	
 	public function show($post_name) {
-		$post = \App\Post::where('post_name', $post_name)->get(); //get post
+		$post = \App\Post::where('post_name', $post_name)->first(); //get post
 		return view('posts/single', array( //Pass the post to the view
-			'post' => $post[0]
+			'post' => $post
 		));
 	}
 	
@@ -90,11 +91,9 @@ class ArticlesController extends Controller
     }
 
     
-    public function destroy($post_name)
+    public function destroy($post_name, ArticlesRepository $articlesRepository)
     {
-		$article = \App\Post::where('post_name', $post_name)->first();
-		
-		$article->delete();
+		$articlesRepository->destroy($post_name);
 		
         $posts = \App\Post::get();
 		return view('articles', array(
