@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
+	public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show', 'storeComment']]);
+    }
+	
     public function index()
 	{
 		$posts = \App\Post::get();
@@ -51,7 +56,7 @@ class ArticlesController extends Controller
     {
         $article = new \App\Post(); //on instancie un nouveau projet
 		
-		$article->post_author = request('post_author');
+		$article->post_author = Auth::id();
 		$article->post_date = now();
 		$article->post_content = request('post_content'); 
 		$article->post_title = request('post_title');

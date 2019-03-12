@@ -29,3 +29,7 @@ Route::post('/articles/comment', 'ArticlesController@storeComment');
 
 Route::get('/contact', 'ContactController@index');
 Route::post('/contact', 'ContactController@store');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

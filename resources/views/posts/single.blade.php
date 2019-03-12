@@ -1,7 +1,9 @@
 @extends('layouts/main')
 
 @section('content')
-	<a href="/articles/{{ $post->post_name }}/edit">Editer</a>
+	@auth()
+		<a href="/articles/{{ $post->post_name }}/edit">Editer</a>
+	@endauth
 	
 	<h1>{{ $post->post_title }}</h1>
 	

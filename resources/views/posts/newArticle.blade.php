@@ -4,11 +4,6 @@
 	<form action="{{ url('/articles') }}" method="POST">
 		{{ csrf_field() }}
 		<div class="form-group">
-			<input type="text" class="form-control {{ $errors->has('post_author') ? 'is-invalid' : '' }}" name="post_author" id="post_author" placeholder="auteur"
-				value="{{ old('post_author') }}"> {!! $errors->first('post_author', '
-			<div class="invalid-feedback">:message</div>') !!}
-		</div>
-		<div class="form-group">
 			<input type="text" class="form-control {{ $errors->has('post_title') ? 'is-invalid' : '' }}" name="post_title" id="post_title" placeholder="Titre"
 				value="{{ old('post_title') }}"> {!! $errors->first('post_title', '
 			<div class="invalid-feedback">:message</div>') !!}
