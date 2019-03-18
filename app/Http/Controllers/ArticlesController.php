@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ArticleRequest;
-use App\Repositories\ArticlesRepository;
+use App\Repositories\ArticlesRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
@@ -52,20 +53,9 @@ class ArticlesController extends Controller
         return view('posts/newArticle');
     }
 
-    public function store(ArticleRequest $request)
+    public function store(ArticleRequest $request, ArticlesRepositoryInterface $articlesRepository)
     {
-        $article = new \App\Post(); //on instancie un nouveau projet
-		
-		$article->post_author = Auth::id();
-		$article->post_date = now();
-		$article->post_content = request('post_content'); 
-		$article->post_title = request('post_title');
-		$article->post_status = request('post_status');
-		$article->post_name = request('post_name');
-		$article->post_type = 'article';
-		$article->post_category = request('post_category');
-		
-		$article->save();
+		$articlesRepository->save($request);
 		
 		return $this->index();
     }
@@ -73,10 +63,18 @@ class ArticlesController extends Controller
 	public function edit($post_name)
     {
 		$article = \App\Post::where('post_name', $post_name)->first();
+		$user = Auth::user();
 		
-        return view('posts/editArticle', array(
-			'article' => $article
-		));
+		if ($user->can('update', $article))
+		{
+	        return view('posts/editArticle', array(
+				'article' => $article
+			));
+		}
+		else
+		{
+			return $this->show($post_name);
+		}
     }
 
     
@@ -84,26 +82,44 @@ class ArticlesController extends Controller
     {
 		
         $article = \App\Post::where('post_name', $post_name)->first();
+		$user = Auth::user();
 		
-		$article->post_content = request('post_content'); 
-		$article->post_title = request('post_title');
-		$article->post_status = request('post_status');
-		$article->post_category = request('post_category');
-		
-		$article->save();
+		if ($user->can('update', $article))
+		{
+			$article->post_content = request('post_content'); 
+			$article->post_title = request('post_title');
+			$article->post_status = request('post_status');
+			$article->post_category = request('post_category');
+			
+			$article->save();
+		}
 		
 		return $this->show($post_name);
     }
 
     
-    public function destroy($post_name, ArticlesRepository $articlesRepository)
+    public function destroy($post_name, ArticlesRepositoryInterface $articlesRepository)
     {
-		$articlesRepository->destroy($post_name);
+        $article = \App\Post::where('post_name', $post_name)->first();
+		$user = Auth::user();
 		
-        $posts = \App\Post::get();
-		return view('articles', array(
-			'posts' => $posts,
-			'destroyed' => 'article supprimé avec succès!'
-		));
+		if ($user->can('delete', $article))
+		{
+			$articlesRepository->destroy($post_name);
+			
+	        $posts = \App\Post::get();
+			return view('articles', array(
+				'posts' => $posts,
+				'destroyed' => 'Article supprimé avec succès!'
+			));
+		}
+		else
+		{
+			$posts = \App\Post::get();
+			return view('articles', array(
+				'posts' => $posts,
+				'destroyed' => 'Vous ne pouvez pas supprimer cet article!'
+			));
+		}
     }
 }

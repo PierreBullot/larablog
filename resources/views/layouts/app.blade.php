@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
 </head>
 <body>
     <div id="app">
@@ -28,11 +29,15 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
+                    
                 </div>
-
+				<div class="top-bar-left">
+					<ul class="menu">
+						<li><a href="/">Home</a></li>
+						<li><a href="/articles">Articles</a></li>
+						<li><a href="/contact">Contact</a></li>
+					</ul>
+				</div>
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">

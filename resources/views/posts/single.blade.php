@@ -1,9 +1,9 @@
 @extends('layouts/main')
 
 @section('content')
-	@auth()
+	@can('update', $post)
 		<a href="/articles/{{ $post->post_name }}/edit">Editer</a>
-	@endauth
+	@endcan
 	
 	<h1>{{ $post->post_title }}</h1>
 	

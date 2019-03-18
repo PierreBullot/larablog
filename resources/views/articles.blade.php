@@ -11,13 +11,13 @@
 	<ul>
 		@foreach ( $posts as $post )
 			<li><a href="/articles/{{ $post->post_name }}">{{ $post->post_title }}</a></li>
-			@auth()
+			@can('update', $post)
 				<form action="/articles/{{ $post->post_name }}" method="POST">
 					{{ csrf_field() }}
 					<input type="hidden" name="_method" value="DELETE">
 					<button type="submit" class="btn btn-secondary">delete</button><br/><br/>
 				</form>
-			@endauth
+			@endcan
 		@endforeach
 	</ul>
 @endsection
