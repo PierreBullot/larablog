@@ -9,6 +9,10 @@
 	
 	<h2>{{ $post->author->username }}</h2>
 	
+	@if(isset($post->post_image))
+		<img src="/uploads/{{ $post->post_image }}" />
+	@endif
+	
 	<p>{{ $post->post_content }}</p>
 	
 	<h3>Commentaires</h3>

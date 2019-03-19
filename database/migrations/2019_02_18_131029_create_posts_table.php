@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('post_author');
             $table->date('post_date');
             $table->text('post_content');
+            $table->string('post_image')->nullable();
             $table->string('post_title');
             $table->string('post_status');
             $table->string('post_name')->unique();

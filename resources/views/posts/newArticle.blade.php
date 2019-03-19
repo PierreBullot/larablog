@@ -1,7 +1,7 @@
 @extends('layouts/main')
 
 @section('content')
-	<form action="{{ url('/articles') }}" method="POST">
+	<form action="{{ url('/articles') }}" method="POST" enctype="multipart/form-data">
 		{{ csrf_field() }}
 		<div class="form-group">
 			<input type="text" class="form-control {{ $errors->has('post_title') ? 'is-invalid' : '' }}" name="post_title" id="post_title" placeholder="Titre"
@@ -28,7 +28,10 @@
 				value="{{ old('post_category') }}"> {!! $errors->first('post_category', '
 			<div class="invalid-feedback">:message</div>') !!}
 		</div>
-		
+		<div class="form-group">
+			<label>Image à upload:</label>
+			<input type="file" name="file" id="file">
+		</div>
 		<button type="submit" class="btn btn-secondary">Envoyer !</button><br/><br/>
 	</form>
 @endsection

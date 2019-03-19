@@ -30,6 +30,12 @@ class ArticlesRepository implements ArticlesRepositoryInterface
 		$article->post_name = request('post_name');
 		$article->post_type = 'article';
 		$article->post_category = request('post_category');
+		if (request('file') !== null )
+		{
+			$file = request('file');
+			$file->move('uploads', $file->getClientOriginalName());
+			$article->post_image = $file->getClientOriginalName();
+		}
 		
 		$article->save();
 	}
