@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentEvent;
 use App\Http\Requests\CommentRequest;
 use App\Http\Requests\ArticleRequest;
 use App\Repositories\ArticlesRepositoryInterface;
@@ -44,6 +45,8 @@ class ArticlesController extends Controller
 		$comment->save();
 		
 		//~ dd($comment);die;
+		
+		event(new CommentEvent($comment));
 		
 		return back();
 	}
