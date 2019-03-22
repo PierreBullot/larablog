@@ -8,6 +8,7 @@
                 <div class="panel-heading">Login</div>
 
                 <div class="panel-body">
+					<a href="/login/github">Login avec Github</a>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 

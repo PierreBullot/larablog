@@ -7,7 +7,7 @@
 	
 	<h1>{{ $post->post_title }}</h1>
 	
-	<h2>{{ $post->author->username }}</h2>
+	<h2>{{ $post->author->name }}</h2>
 	
 	@if(isset($post->post_image))
 		<img src="/uploads/{{ $post->post_image }}" />
